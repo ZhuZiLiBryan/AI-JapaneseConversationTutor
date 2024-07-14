@@ -2,6 +2,8 @@ import sounddevice as sd
 import whisper 
 import torch
 import os
+import pyaudio
+import speech_recognition as sr
 
 # TODO: Use Django? for web frontend
 # TODO: 
@@ -12,11 +14,7 @@ torch.cuda.init()
 num_devices = torch.cuda.device_count()
 device_name = torch.cuda.get_device_name()
 compute_capability = torch.cuda.get_device_capability()
-print(f"Number of Devices: {num_devices}")
-print(f"Device Name: {device_name}")
-
-# Load Whisper model
-model = whisper.load_model("base")
+print(f"GPU Name: {device_name}")
 
 # main loop
 
@@ -28,8 +26,20 @@ model = whisper.load_model("base")
     finally:d
         print("Program Terminating! See you again soon!")'''
 
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print("Test audio!:" )
+    audio = r.listen(source)
+
+with open("tutor/audio/recording_results.wav", "wb") as f:
+    f.write(audio.get_wav_data())
+
+
+
+# Load Whisper model
+model = whisper.load_model("base")
 
 # Find audio file to transcribe
-abs_path = os.path.abspath("tutor/audio/testaudio.mp3")
+abs_path = os.path.abspath("tutor/audio/recording_results.wav")
 result = model.transcribe(abs_path)
 print(result["text"])

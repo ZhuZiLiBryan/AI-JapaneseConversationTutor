@@ -1,3 +1,7 @@
+# System config files
 .env
 venv
+
+# Audio files
 .mp3
+.wav
