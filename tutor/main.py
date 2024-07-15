@@ -5,6 +5,7 @@ import os
 import pyaudio
 import speech_recognition as sr
 from gtts import gTTS
+import playsound
 
 # TODO: Use Django? for web frontend
 # TODO: Use microphone stream for real-time transcription
@@ -49,8 +50,17 @@ while True:
 
     print(f'{result["text"]}, {len(result["text"])}') 
     #TODO: do OpenAI API call only if audio detected was valid (i.e. length of transcribed audio is nonzero)
+
+    # For now, use Google TTS for TTS
+    #TODO: use OpenAI TTS for natural transcription
     tts = gTTS(result["text"], lang=selected_language)
     tts.save("testplayback.mp3")
+
+    # Play audio
+    playsound.playsound(os.path.abspath("testplayback.mp3"))
+    os.remove(os.path.abspath("testplayback.mp3"))
+    
+    
 
 
 
