@@ -91,6 +91,8 @@ while True:
     )
     tutor_response = response.choices[0].message.content
 
+    print(tutor_response)
+
     # append OpenAI generated messages
     chat_history.append(
         {
